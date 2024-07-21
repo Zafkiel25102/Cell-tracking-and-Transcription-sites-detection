@@ -69,7 +69,7 @@ pip install -r piprequirements_gnn.txt
 
 ## Getting Started
 ```
-cd ./cell_track/bash
+cd path/to/Cell-tracking-and-Transcription-sites-detection/cell_track/bash
 Run cell_track_yolo.sh
 ```
 
