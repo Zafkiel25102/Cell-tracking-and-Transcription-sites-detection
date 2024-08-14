@@ -1,6 +1,0 @@
-Collecting aicspylibczi
-  Using cached aicspylibczi-3.1.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.0 MB)
-Requirement already satisfied: fsspec in /home/sunrui/anaconda3/envs/cell_t/lib/python3.8/site-packages (2022.2.0)
-Requirement already satisfied: numpy>=1.14.1 in /home/sunrui/anaconda3/envs/cell_t/lib/python3.8/site-packages (from aicspylibczi) (1.22.3)
-Installing collected packages: aicspylibczi
-Successfully installed aicspylibczi-3.1.2
