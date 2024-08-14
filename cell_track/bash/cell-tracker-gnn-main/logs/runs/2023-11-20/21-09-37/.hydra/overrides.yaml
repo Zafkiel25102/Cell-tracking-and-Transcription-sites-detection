@@ -1,3 +1,0 @@
-- datamodule.dataset_params.main_path=/home/sunrui/cellwork/track/cell-tracker-gnn-main/data/ct_features/sunr_2_50
-- datamodule.dataset_params.exp_name=2D_SIM
-- datamodule.dataset_params.drop_feat=[]

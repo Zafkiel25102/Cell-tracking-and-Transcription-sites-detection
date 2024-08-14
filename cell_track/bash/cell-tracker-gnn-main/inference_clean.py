@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[43]:
 
 import sys
 
@@ -18,8 +17,6 @@ from src.models.celltrack_plmodel import CellTrackLitModel
 from src.inference.graph_dataset_inference import CellTrackDataset
 import warnings
 warnings.filterwarnings("ignore")
-
-print('>>Track_inference_clean<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
 def predict(ckpt_path, path_csv_output, num_seq):
     """Inference with trained model.
@@ -78,39 +75,21 @@ def predict(ckpt_path, path_csv_output, num_seq):
 
 
 
-# In[44]:
+def main():
+    print('>>Track_inference_clean<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+
+    import argparse
+    root_path = os.path.join(sys.argv[2],sys.argv[3])
 
 
-import argparse
-root_path = os.path.join(sys.argv[2],sys.argv[3])
+    parser = argparse.ArgumentParser()
+    current_path = os.getcwd()
+    model_path = current_path + r"/logs/runs/2023-11-20/21-09-37/checkpoints/epoch=274.ckpt"
+    num_seq = r"01"
+    output_csv = root_path 
+    assert num_seq == '01' or num_seq == '02'
+    predict(model_path, output_csv, num_seq)
 
 
-parser = argparse.ArgumentParser()
-current_path = os.getcwd()
-model_path = current_path + r"/logs/runs/2023-11-20/21-09-37/checkpoints/epoch=274.ckpt"
-num_seq = r"01"
-output_csv = root_path 
-assert num_seq == '01' or num_seq == '02'
-predict(model_path, output_csv, num_seq)
-
-# In[45]:
-
-
-
-
-# if __name__ == "__main__":
-#     import argparse
-
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('-mp', type=str, required=True, help='model params full path')
-
-#     parser.add_argument('-ns', type=str, required=True, help='number of sequence - string 01/02')
-#     parser.add_argument('-oc', type=str, required=True, help='output csv directory')
-
-#     args = parser.parse_args()
-
-#     model_path = args.mp
-#     num_seq = args.ns
-#     output_csv = args.oc
-#     assert num_seq == '01' or num_seq == '02'
-#     predict(model_path, output_csv, num_seq)
+if __name__ == "__main__":
+    main()

@@ -6,7 +6,7 @@
 #SBATCH --gres=gpu:1
 gpu_='0'         #gpu_='1,2,3'
 
-root_path='/mnt/sda/cell_data/l3/20240711/SOX2_wt_60h_20240717_101207/'    #change rootpath
+root_path='/home/sunrui/cell_track/backup/backup-t/cell_track/data/test_dataset/'    #change rootpath
 
 conda activate cell-track
 python Creatdatafloder.py $gpu_ $root_path   

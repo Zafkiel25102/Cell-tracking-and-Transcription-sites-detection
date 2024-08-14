@@ -1,4 +1,0 @@
-- dataset.kwargs.data_dir_img=/home/sunrui/cellwork/track/cell-tracker-gnn-main/data/CTC/Training/sunr_2_50
-- dataset.kwargs.data_dir_mask=/home/sunrui/cellwork/track/cell-tracker-gnn-main/data/CTC/Training/sunr_2_50
-- dataset.kwargs.dir_csv=./data/basic_features/sunr_2_50
-- dataset.kwargs.subdir_mask=GT/TRA

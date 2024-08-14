@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[57]:
-
 
 import os
 import sys
@@ -18,7 +16,6 @@ import warnings
 warnings.filterwarnings("ignore")
 import imageio
 
-print('>>Track_postprocess_clean<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 class Postprocess(object):
     def __init__(self,
                  is_3d,
@@ -603,86 +600,25 @@ class Postprocess(object):
 
 
 
+def main():
+    print('>>Track_postprocess_clean<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+    root_path = os.path.join(sys.argv[2],sys.argv[3])
+
+    modality = '2D'
+    path_inference_output = root_path +'/01_RES_inference'
+    path_Seg_result = root_path + '/01_GT/SEG/'
+    is_3d = '3d' in modality.lower() 
+    directed = True
+    merge_operation = 'AND'
+    pp = Postprocess(is_3d=is_3d,
+                        type_masks='tif', merge_operation=merge_operation,
+                        decision_threshold=0.5,
+                        path_inference_output=path_inference_output, center_coord=False,
+                        directed=directed,
+                        path_seg_result=path_Seg_result)
+    all_frames_traject, trajectory_same_label, df_trajectory, str_track = pp.create_trajectory()
+    pp.fill_mask_labels(debug=False)
 
 
-
-
-
-
-
-# In[58]:
-
-
-root_path = os.path.join(sys.argv[2],sys.argv[3])
-
-modality = '2D'
-path_inference_output = root_path +'/01_RES_inference'
-path_Seg_result = root_path + '/01_GT/SEG/'
-is_3d = '3d' in modality.lower() 
-directed = True
-merge_operation = 'AND'
-pp = Postprocess(is_3d=is_3d,
-                    type_masks='tif', merge_operation=merge_operation,
-                    decision_threshold=0.5,
-                    path_inference_output=path_inference_output, center_coord=False,
-                    directed=directed,
-                    path_seg_result=path_Seg_result)
-all_frames_traject, trajectory_same_label, df_trajectory, str_track = pp.create_trajectory()
-pp.fill_mask_labels(debug=False)
-
-# In[59]:
-
-
-# df_trajectory
-
-# In[60]:
-
-
-# trajectory_same_label
-
-# In[61]:
-
-
-# trajectory_same_label
-# df_same_tra = pd.DataFrame(trajectory_same_label)
-
-# In[62]:
-
-
-# df_same_tra
-
-# In[63]:
-
-
-
-
-# if __name__== "__main__":
-#     import argparse
-
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('-modality', type=str, required=True, help='2D/3D modality')
-#     parser.add_argument('-iseg', type=str, required=True, help='segmentation output directory')
-#     parser.add_argument('-oi', type=str, required=True, help='inference output directory')
-
-#     args = parser.parse_args()
-
-#     modality = args.modality
-#     assert modality == '2D' or modality == '3D'
-
-#     path_inference_output = args.oi
-#     path_Seg_result = args.iseg
-
-#     is_3d = '3d' in modality.lower()
-#     directed = True
-#     merge_operation = 'AND'
-
-#     pp = Postprocess(is_3d=is_3d,
-#                      type_masks='tif', merge_operation=merge_operation,
-#                      decision_threshold=0.5,
-#                      path_inference_output=path_inference_output, center_coord=False,
-#                      directed=directed,
-#                      path_seg_result=path_Seg_result)
-#     all_frames_traject, trajectory_same_label, df_trajectory, str_track = pp.create_trajectory()
-#     pp.fill_mask_labels(debug=False)
-
-
+if __name__ == "__main__":
+    main()

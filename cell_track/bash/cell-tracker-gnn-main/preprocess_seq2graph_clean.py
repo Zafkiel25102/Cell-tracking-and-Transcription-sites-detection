@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[44]:
-
-
 import os
 import sys
 os.environ['CUDA_VISIBLE_DEVICES'] = sys.argv[1]
@@ -29,7 +26,6 @@ import sys
 from src_metric_learning.modules.resnet_2d.resnet import set_model_architecture, MLP
 from skimage.morphology import label
 
-print('>>Track_preprocess_clean<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
 class TestDataset(Dataset):
     """Example dataset class for loading images from folder."""
@@ -387,45 +383,19 @@ def create_csv(input_images, input_seg, input_model, output_csv, min_cell_size):
 
 
 
+def main():
+    print('>>Track_preprocess_clean<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
-# In[45]:
+    root_path = os.path.join(sys.argv[2],sys.argv[3])
+    min_cell_size = 20
+    input_images = root_path + r"/01/"
+    input_segmentation = root_path + r"/01_GT/SEG/"
+    current_path = os.getcwd() 
+    input_model = current_path+ "/outputs/2023-11-20/13-48-43/all_params.pth"
 
+    output_csv = root_path + r"/01_CSV"
+    print('............creat_csv..............')
+    create_csv(input_images, input_segmentation, input_model, output_csv, min_cell_size)
 
-import argparse
-
-parser = argparse.ArgumentParser()
-root_path = os.path.join(sys.argv[2],sys.argv[3])
-min_cell_size = 20
-input_images = root_path + r"/01/"
-input_segmentation = root_path + r"/01_GT/SEG/"
-current_path = os.getcwd() 
-input_model = current_path+ "/outputs/2023-11-20/13-48-43/all_params.pth"
-
-output_csv = root_path + r"/01_CSV"
-print('............creat_csv..............')
-create_csv(input_images, input_segmentation, input_model, output_csv, min_cell_size)
-
-# In[46]:
-
-
-# if __name__ == "__main__":
-#     import argparse
-
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('-ii', type=str, required=True, help='input images directory')
-#     parser.add_argument('-iseg', type=str, required=True, help='input segmentation directory')
-#     parser.add_argument('-im', type=str, required=True, help='metric learning model params directory')
-#     parser.add_argument('-cs', type=int, required=True, help='min cell size')
-
-#     parser.add_argument('-oc', type=str, required=True, help='output csv directory')
-
-#     args = parser.parse_args()
-
-#     min_cell_size = args.cs
-#     input_images = args.ii
-#     input_segmentation = args.iseg
-#     input_model = args.im
-
-#     output_csv = args.oc
-
-#     create_csv(input_images, input_segmentation, input_model, output_csv, min_cell_size)
+if __name__ == "__main__":
+    main()
