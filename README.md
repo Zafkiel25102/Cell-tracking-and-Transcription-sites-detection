@@ -1,9 +1,9 @@
-
 # ***Cell tracking and Transcription sites detection***
 
 <br><br>
 
 ## Set up conda virtual environment
+
 <details>
 <summary><b>Installing environment dependencies on Linux :</b></summary>
 
@@ -18,9 +18,11 @@ conda activate cell_track
 # install other tracking requirements
 pip install -r piprequirements_gnn.txt
 ```
+
 </details>
 
 ## Structure
+
 <details>
 <summary><b>The directory structure :</b></summary>
 
@@ -63,18 +65,23 @@ pip install -r piprequirements_gnn.txt
 │   │    │  ├── scripts              <- ONNX Export
 │   │    │  ├── segment_anything     <- SAM Structure   
 │   │    ├── cell_track_yolo.sh      <- Main Bash Script   
-  
 ```
+
 </details>
 
 ## Getting Started
+
 ```
 cd path/to/Cell-tracking-and-Transcription-sites-detection/cell_track/bash
 Run cell_track_yolo.sh
 ```
 
+## Transcription sites Analysis
+
+Please refer to to [READMESPOT.md](/site_flow/READMESPOT.md) for more details.
 
 ## Citation
+
 ```sh
 @inproceedings{ben2022graph,
 title={Graph Neural Network for Cell Tracking in Microscopy Videos},
