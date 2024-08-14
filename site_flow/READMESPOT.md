@@ -34,7 +34,7 @@ Making sure your data and python environment is fine, then run:
 python predict.py --data_path your_data_path --model_weight your model_weight
 ```
 
-## Ciation
+## Citation
 
 ```
 Gudla et. al., "SpotLearn: Convolutional Neural Network for Detection of Fluorescence In Situ Hybridization (FISH) Signals in
