@@ -17,10 +17,12 @@ We expect the directory structure to be the following:
 ```
 data
 ├── field1                    <- field data folder
-│   ├── cellraw_xxx.tif       <- single cell sequence file
+│   ├── 0                     <- site num
+│   │    ├── cellraw_xxx.tif  <- single cell sequence file
+│   ├── 1                     <- site num
+│   │    ├── cellraw_xxx.tif  <- single cell sequence file
 ...
 ├── field2
-│   ├── cellraw_xxx.tif       <- single cell sequence file
 ...
 ```
 

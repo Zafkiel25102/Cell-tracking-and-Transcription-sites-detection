@@ -97,7 +97,7 @@ def trackpy_link(spots_data, num_frames):
 
     return result_trajectories, tmp_result_trajectories
 
-def spot_track_single(field, cell_folder, people):
+def spot_track_single(field, cell_folder):
     cell_idx = os.path.basename(cell_folder)
     cell_index_num = cell_idx.split('_')[1]
 
@@ -107,7 +107,7 @@ def spot_track_single(field, cell_folder, people):
     num_frames = img_dim[0]
     spots_data = pd.read_csv(os.path.join(cell_folder, 'cell_mask_reg.csv'), index_col=False)
     
-    result_trajectories, tmp_result_trajectories = trackpy_link(spots_data, people, num_frames)
+    result_trajectories, tmp_result_trajectories = trackpy_link(spots_data, num_frames)
     if tmp_result_trajectories is not None:
         tmp_result_trajectories.to_csv(os.path.join(cell_folder, 'trajectories_data_raw.csv'))
     result_trajectories.to_csv(os.path.join(cell_folder, 'trajectories_data.csv'))
@@ -119,7 +119,7 @@ def spot_track_single(field, cell_folder, people):
             new_columns = {'y [px]': 'y', 'x [px]': 'x', 'z': 'frame'}
             filtered_spots_data.rename(columns=new_columns, inplace=True)
 
-            result_trajectories = trackpy_link(filtered_spots_data, people, num_frames)
+            result_trajectories = trackpy_link(filtered_spots_data, num_frames)
             result_trajectories.to_csv(os.path.join(cell_folder, 'filtered_trajectories_data.csv'))
 
     print(f'field {field:^4s}: cell {cell_index_num:^7s} track processing is done.')
