@@ -78,7 +78,7 @@ Run cell_track_yolo.sh
 
 ## Transcription sites Analysis
 
-Please refer to to [READMESPOT.md](/site_flow/READMESPOT.md) for more details.
+Please refer to to [READMESPOT.md](/site_flow/README.md) for more details.
 
 ## Citation
 
