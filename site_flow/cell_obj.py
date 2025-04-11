@@ -11,8 +11,8 @@ import scipy.optimize
 from skimage import measure
 import trackpy as tp
 
-from pipeline.spotlearn import SpotlearnNet
-from pipeline.utils import *
+from .spotlearn import SpotlearnNet
+from .utils import *
 
 
 __class = ['Tracker', 'Celler', 'Trajer']
