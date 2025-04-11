@@ -31,7 +31,7 @@ data
 Making sure your data and python environment is fine, then run:
 
 ```
-python predict.py --data_path your_data_path --model_weight your_model_weight
+python run_site.py --data_path your_data_path --model_weight_path your_model_weight_path
 ```
 
 ## Citation
