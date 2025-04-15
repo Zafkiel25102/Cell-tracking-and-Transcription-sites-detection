@@ -391,7 +391,7 @@ def main():
     input_images = root_path + r"/01/"
     input_segmentation = root_path + r"/01_GT/SEG/"
     current_path = os.getcwd() 
-    input_model = current_path+ "/outputs/2023-11-20/13-48-43/all_params.pth"
+    input_model = current_path+ "/Please/enter/the/model/path/./outputs/2023-11-20/13-48-43/all_params.pth"
 
     output_csv = root_path + r"/01_CSV"
     print('............creat_csv..............')
