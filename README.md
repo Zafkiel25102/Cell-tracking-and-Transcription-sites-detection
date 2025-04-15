@@ -75,7 +75,7 @@ pip install -r piprequirements_gnn.txt
 cd path/to/Cell-tracking-and-Transcription-sites-detection/cell_track/bash
 Run cell_track_yolo.sh
 ```
-## Model Download
+## GINKgo Models Available for Download
 
 ```
 The model files can be downloaded here:https://westlakeu-my.sharepoint.com/:f:/g/personal/wanyihan_westlake_edu_cn/EknHe0MW7aFEmLB0M_HiX84BFQw4-VbQ3NKTywkf9xWhSg?e=wo3OVb
