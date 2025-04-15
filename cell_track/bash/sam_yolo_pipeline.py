@@ -279,7 +279,7 @@ def main():
 
     ###加载分割器
 
-    sam_checkpoint = "./segment-anything/notebooks/sam_vit_h_4b8939.pth"
+    sam_checkpoint = "/Please/enter/the/model/path/./sam_vit_h_4b8939.pth"
     model_type = "vit_h"
 
 
