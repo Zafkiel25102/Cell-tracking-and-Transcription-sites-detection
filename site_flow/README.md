@@ -7,7 +7,7 @@ This code based on `python`，and requires `pytorch` and `torchvision`. Please f
 Other package dependencies:
 
 ```
-pip install tifffile trackpy SimpleITK scikit-image
+pip install tifffile trackpy SimpleITK scikit-image scikit-image
 ```
 
 ### Data preparation
@@ -35,7 +35,7 @@ from os.path import join
 from pathlib import Path
 import torch
 
-from rnaflow.site.pipeline.predictor import SitePredictor
+from predictor import SitePredictor
 
 cell_seq_path = Path('path/to/cell_sequence_folder/tiff_file')
 cell_seq_data_dir = cell_seq_path.parent / cell_seq_path.stem
@@ -73,7 +73,15 @@ site_predictor.compute_intensity(site2=have_two_sites)
 site_predictor.get_raw_stack_with_label()
 ```
 
-## Citation
+### Example
+
+```bash
+cd site_flow
+conda activate your_env_name
+python run.py
+```
+
+### Citation
 
 ```
 Gudla et. al., "SpotLearn: Convolutional Neural Network for Detection of Fluorescence In Situ Hybridization (FISH) Signals in
