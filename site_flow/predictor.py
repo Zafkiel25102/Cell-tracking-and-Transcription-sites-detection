@@ -11,8 +11,8 @@ import scipy.optimize
 from skimage import measure
 import trackpy as tp
 
-from .spotlearn import SpotlearnNet
-from .utils import *
+from spotlearn import SpotlearnNet
+from utils import *
 
 
 def read_csv(csv_path: PathType) -> pd.DataFrame:
