@@ -1,40 +1,87 @@
 # Transcription sites Analysis
 
-## Usage
+This part contains the code for the RNA transcription site analysis pipeline.
 
 This code based on `python`，and requires `pytorch` and `torchvision`. Please follow the instructions [here](https://pytorch.org/get-started/locally/) to install both PyTorch and TorchVision dependencies. Installing both PyTorch and TorchVision with CUDA support is strongly recommended.
 
 Other package dependencies:
 
 ```
-pip install tifffile trackpy SimpleITK scikit-image
+pip install tifffile trackpy SimpleITK scikit-image scikit-image
 ```
 
 ### Data preparation
 
-We expect the directory structure to be the following:
+This pipeline expects the input data to be in the following format:
 
+- A folder containing TIFF files of the cell sequence images.
+
+TIFF files should be named in a way that indicates the cell id, such as `cellraw_0001.tif`, `cellraw_0002.tif`, etc. The images should be grayscale and have a consistent resolution. In this pipeline, we using the fixed resolution of `128*128` pixels for each cell image. 
+
+### Usage
+
+**Note**: We design different tracking methods for cell sequences with different transcription sites.
+
+- For cell sequence which at most has one transcription site, we link sites in consecutive and constrained frames into *patch*, 
+    and then link patches into *trajectory* based on the distance between the patches.
+
+- For cell sequence which has 2 transcription sites, we use the cluster method to assign the transcription sites to different clusters.
+
+- **IMPORTANT!!**  All site tracking are done in the registration space, which is the space after the registration of the cell sequence.
+
+```python
+import shutil
+from os.path import join
+from pathlib import Path
+import torch
+
+from predictor import SitePredictor
+
+cell_seq_path = Path('path/to/cell_sequence_folder/tiff_file')
+cell_seq_data_dir = cell_seq_path.parent / cell_seq_path.stem
+cell_seq_data_dir.mkdir(exist_ok=True)
+shutil.copy(cell_seq_path, cell_seq_data_dir, follow_symlinks=True)
+
+site_predictor = SitePredictor(
+    cell_seq_data_dir, device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+)
+
+model_dir = 'path/to/pt'
+# Run the site detection and registration
+spotlearn_model_path = join(model_dir,'spotlearn/epoch40.pt')
+site_predictor.site_detect(spotlearn_model_path)
+site_predictor.registration_recursive()
+# Get the coordinates of the transcription site 
+rf_classifier_path = join(model_dir,'rf_classifier/random_forest_model.pkl')
+nn_classifier_path = join(model_dir,'nn_classifier/tut1-model.pt')
+site_predictor.get_mask_coor_reg(
+    rf_classifier_path=rf_classifier_path,
+    nn_classifier_path=nn_classifier_path,
+)
+
+# PAY ATTENTION:
+# Choose the appropriate tracking method based on the transcription sites in the cell sequence.
+# For cell sequence which at most has one transcription site
+site_predictor.site_track()
+# For cell sequence which has 2 transcription sites
+site_predictor.site_cluster()
+
+# Compute the intensity of the transcription site
+have_two_sites = False  # Set to True if the cell sequence has 2 transcription sites
+site_predictor.compute_intensity(site2=have_two_sites)
+# Plot the raw stack with tracked sites coordinates
+site_predictor.get_raw_stack_with_label()
 ```
-data
-├── field1                    <- field data folder
-│   ├── 0                     <- site num
-│   │    ├── cellraw_xxx.tif  <- single cell sequence file
-│   ├── 1                     <- site num
-│   │    ├── cellraw_xxx.tif  <- single cell sequence file
-...
-├── field2
-...
+
+### Example
+
+```bash
+cd site_flow
+conda activate your_env_name
+python run.py
 ```
 
-### Inference
-
-Making sure your data and python environment is fine, then run:
-
-```
-python run_site.py --data_path your_data_path --model_weight_path your_model_weight_path
-```
-
-## Citation
+### Citation
 
 ```
 Gudla et. al., "SpotLearn: Convolutional Neural Network for Detection of Fluorescence In Situ Hybridization (FISH) Signals in

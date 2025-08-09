@@ -15,16 +15,14 @@ from scipy.special import erf
 from scipy.signal import convolve
 from scipy.optimize import curve_fit
 from sklearn.cluster import KMeans
+from matplotlib import pyplot as plt
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-__class = ['utils', 'detection', 'registration', 'fp filter', 'trajectory', 'compute intensity']
 
-# =====
-# Utils
-# =====
+# region Utils
 
 _EPSILON = 1e-10
 PathType = Union[str, Path, Iterable[str], Iterable[Path]]
@@ -97,9 +95,8 @@ def delete_cell_folders(directory):
             field_site_path = os.path.join(field_path, site_num)
             delete_folders(field_site_path)
 
-# ===========
-# Helper Func
-# ===========
+
+# region Helper Func
 
 def mask_to_coordinate(
     matrix: np.ndarray, probability: float = 0.5
@@ -237,9 +234,8 @@ def linear_sum_assignment(
             ncol.append(c)
     return nrow, ncol
 
-# =======
-# Dection
-# =======
+
+# region Dection
 
 def spotlearn_norm(img: np.array):
 
@@ -260,9 +256,7 @@ def spotlearn_norm(img: np.array):
     return a
 
 
-# ============
-# Registration
-# ============
+# region Registration
 
 def rigid_registration(fixed: np.ndarray, moving: np.ndarray):
     """Perform rigid registration
@@ -401,9 +395,7 @@ def coord_reg_to_raw(reg_x, reg_y, transform):
     return org_x, org_y
 
 
-# =========
-# FP Filter
-# =========
+# region FP Filter
 
 def gaussian_filter(pic):
     fit_flag, _, fit_res = gaussian_fit(pic, 3, fix_sigma=False, abs_bg=False)
@@ -489,12 +481,20 @@ def fp_filter(pic, rf_model=None, nn_model=None):
 
     return rf_res, nn_res
 
-# ==========
-# Trajectory
-# ==========
 
-def track_filter(track_data: pd.DataFrame, patch_len = [2, 3], search_range=3, memory=3):
-    
+# region Trajectory
+
+def short_patch_filter(
+        track_data: pd.DataFrame, 
+        patch_len = [2, 3], 
+        search_range=3, 
+        memory=3
+) -> pd.DataFrame:
+    '''Filter patches which length in `patch_len` do not meet the following criteria:
+        
+    1. The distance between consecutive frames is less than or equal to search_range.
+    2. The time difference between consecutive frames is less than or equal to memory.
+    '''
     valid_particles = []
     grouped = track_data.groupby('particle')
 
@@ -516,7 +516,9 @@ def track_filter(track_data: pd.DataFrame, patch_len = [2, 3], search_range=3, m
     filtered_data = track_data[track_data['particle'].isin(valid_particles)]
     return filtered_data
 
-def frame_filter_(track_data: pd.DataFrame):
+def save_smallest_id_filter(track_data: pd.DataFrame):
+    '''In each frame, only the particle with the smallest ID is retained,
+    and all other particles are marked as invalid and filtered out.'''
     invalid_particles = set()
     grouped = track_data.groupby('frame')
 
@@ -533,14 +535,41 @@ def frame_filter_(track_data: pd.DataFrame):
 
     return filtered_data
 
-def reindex_particle(data):
-    particle_counts = data['particle'].value_counts()
-    particle_mapping = {particle: index for index, particle in enumerate(particle_counts.index)}
-    data['particle'] = data['particle'].map(particle_mapping)
-    
-    return data
+def filter_overlapping_frames(track_data: pd.DataFrame):
+    '''Filter overlapping frames in trajectory data.
 
-def link_patches(data, search_range, memory):
+    1. If multiple particles appear in the same frame,
+        only the longest trajectory (by number of rows) is kept for that frame.
+    2. Shorter trajectories only have their overlapping frame data removed,
+        while their non-overlapping parts are retained.
+    '''
+    # 计算每条轨迹的总行数（长度）
+    traj_lengths = track_data['particle'].value_counts().rename('length')
+    
+    # 标记每个粒子所属的轨迹长度
+    track_data = track_data.join(traj_lengths, on='particle')
+    
+    # 按帧分组，对每帧处理重叠的粒子
+    filtered_data = []
+    for frame, group in track_data.groupby('frame'):
+        if len(group) > 1:
+            # 当前帧有多个粒子，保留长度最大的那个粒子的数据
+            max_len_particle = group.loc[group['length'].idxmax(), 'particle']
+            filtered_data.append(group[group['particle'] == max_len_particle])
+        else:
+            # 无重叠，直接保留
+            filtered_data.append(group)
+    
+    # 合并结果并移除临时列
+    result = pd.concat(filtered_data).drop(columns=['length'])
+    return result.sort_values(['particle', 'frame'])
+
+def link_patches(
+        data: pd.DataFrame, 
+        search_range, 
+        memory
+):
+    """"""
     linked_trajectories = {}  # 存储已链接的轨迹
     # {0: [[49.5, 60.5, 0], [46.388888888888886, 60.22222222222222, 1], [46.66666666666666, 61.0, 2]]}
 
@@ -585,6 +614,13 @@ def link_patches(data, search_range, memory):
         new_value = item
         data.loc[data['particle'] == old_value, 'particle'] = new_value
 
+    def reindex_particle(data):
+        particle_counts = data['particle'].value_counts()
+        particle_mapping = {particle: index for index, particle in enumerate(particle_counts.index)}
+        data['particle'] = data['particle'].map(particle_mapping)
+        
+        return data
+
     data = reindex_particle(data)
 
     return data
@@ -620,6 +656,8 @@ def relative_filter(df, cluster_centers, percentage=0.9):
     return df
 
 def same_time_traj_filter(df, cluster_centers):
+    '''过滤轨迹数据，确保每个粒子在每个时间帧只保留距离其聚类中心最近的一个数据点
+    '''
     filtered_rows = []
 
     for idx, cluster_center in enumerate(cluster_centers, start=0):
@@ -679,9 +717,8 @@ def get_coor_from_mask():
 def traj_completion():
     pass
 
-# =================
-# Compute Intensity
-# =================
+
+# region Compute Intensity
 
 # template utils functions
 
@@ -698,7 +735,7 @@ def create_tp_template():
 def create_total_template():
     csv_data = pd.DataFrame()
     column_names = ['particle_index', 'POSITION_T', 'Reg_X', 'Reg_Y', 'Org_X', 'Org_Y',
-                    'local_maxima', 'Fit_X', 'Fit_Y', 'Fit_amp', 'Fit_offset', 'photon_number']
+                    'local_maxima', 'Fit_X', 'Fit_Y', 'Fit_amp', 'Fit_offset', 'sample_when_zero', 'photon_number']
     
     for column_name in column_names:
         csv_data[column_name] = pd.Series(dtype='float64')
@@ -1067,8 +1104,19 @@ def least_sqr_fit(traj_res, raw_stack, psf_width=1.7, bpass=False, random_sample
         intensity = get_intensity(pic, fit_res['x'], fit_res['y'], psf_width)
 
         # consider when 
-        if intensity == 0 and random_sample_when_zero:
-           pass
+        if intensity == 0.0 and random_sample_when_zero:
+            random_coordinate = random_sample_with_gaussian(img, (63,63), sigma=10)
+            traj_res.loc[i, 'Org_X'] = random_coordinate[1]
+            traj_res.loc[i, 'Org_Y'] = random_coordinate[0]
+            traj_res.loc[i, 'sample_when_zero'] = True
+            
+            pic, xint_raw, yint_raw = get_pic(img, random_coordinate[0], random_coordinate[1], pixel_window=3)
+            fit_flag, pic, fit_res = gaussian_fit(pic, pixel_window=3, fix_sigma=True)
+            intensity = get_intensity(pic, fit_res['x'], fit_res['y'], psf_width)
+
+            traj_res.loc[i, 'Fit_amp'] = fit_res['amp']
+            traj_res.loc[i, 'Fit_offset'] = fit_res['offset']
+            traj_res.loc[i, 'photon_number'] = intensity
         
         else:
             traj_res.loc[i, 'Fit_X'] = yint_raw - 3 + fit_res['y']
@@ -1093,7 +1141,7 @@ def traj_compute(traj_tp_data, raw_stack, rigid_transform, total_frame, random_s
     traj_res = create_total_template()
     traj_res = link_linear_interpolation(traj_tp_data, traj_res, total_frame)
     traj_res = trans_coor_reg2raw(traj_res, rigid_transform)
-    traj_res, bpass_stack = least_sqr_fit(traj_res, raw_stack, random_sample_when_zero=False)
+    traj_res, bpass_stack = least_sqr_fit(traj_res, raw_stack, random_sample_when_zero=random_sample_when_zero)
 
     return traj_res, bpass_stack
 
@@ -1135,3 +1183,12 @@ def empty_compute(raw_stack, rigid_transform, total_frame):
     traj_res, bpass_stack = least_sqr_fit(traj_res, raw_stack)
 
     return traj_res, bpass_stack
+
+# region Plot
+
+def plot_intensity(df, dst_path, col='photon_number'):
+    """Plot the intensity data and save it as a PNG file."""
+    fig, ax = plt.subplots()
+    df[col].plot(kind='line', xlabel='Frame', ylabel=col, ax=ax)
+    plt.savefig(dst_path, format='png')
+    ax.cla()
