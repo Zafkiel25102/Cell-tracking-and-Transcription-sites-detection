@@ -1,6 +1,19 @@
 # Transcription sites Analysis
 
-This part contains the code for the RNA transcription site analysis pipeline.
+This part contains the code for the RNA transcription site analysis pipeline, including site detection, registration, tracking, and intensity computation.
+
+## Environment Setup
+
+### Based on Cell Segmenter Environment (suggested)
+
+The most suggested way to set up the environment is to use the same environment as Cell Segmentation, while with following addtional packages installed:
+
+```shell
+conda activate sam-yolo
+pip install trackpy SimpleITK
+```
+
+### Build from Scratch
 
 This code based on `python`，and requires `pytorch` and `torchvision`. Please follow the instructions [here](https://pytorch.org/get-started/locally/) to install both PyTorch and TorchVision dependencies. Installing both PyTorch and TorchVision with CUDA support is strongly recommended.
 
@@ -8,6 +21,19 @@ Other package dependencies:
 
 ```
 pip install tifffile trackpy SimpleITK scikit-image scikit-image
+```
+
+## Structure
+
+The directory structure:
+
+```
+├── site_flow
+|   ├── predictor.py               <- Main predictor class for site analysis
+|   ├── utils.py                   <- Utility functions
+|   ├── run.py                     <- Example script to run the site analysis pipeline
+|   ├── pt                         <- Pretrained model weights folder
+|   ├── example                    <- Example data folder
 ```
 
 ### Data preparation
@@ -75,9 +101,11 @@ site_predictor.get_raw_stack_with_label()
 
 ### Example
 
+We provide an example script `run.py` in the `site_flow` folder and an example dataset in the `example` folder to demonstrate the usage of the transcription site analysis pipeline.
+
 ```bash
 cd site_flow
-conda activate your_env_name
+conda activate sam-yolo
 python run.py
 ```
 
