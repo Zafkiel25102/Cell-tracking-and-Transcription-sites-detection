@@ -40,7 +40,12 @@ The directory structure:
 
 ## Getting Started
 
-Please ensure to check the `root_path` and `model_ckp_path` in `cell_track_yolo.sh` before running the code. We also provide an example data folder in `cell_track/example` for quick testing.
+Please ensure to check the `root_path` and `model_ckp_path` in `cell_track_yolo.sh` before running the code. 
+
+We provide an example data folder in `cell_track/example` for quick testing. Before running following commands, please make sure to 
+
+- check the `root_path` and `model_ckp_path` in `cell_track_yolo.sh`
+- check the conda installation path and modify it if necessary, e.g., we set `source ~/anaconda3/etc/profile.d/conda.sh` in the bash script.
 
 ```
 cd path/to/Cell-tracking-and-Transcription-sites-detection/cell_track/bash
