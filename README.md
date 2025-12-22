@@ -19,7 +19,7 @@ conda env create -f cell-seg.yml
 conda activate sam-yolo
 ```
 
-**Troubleshootings**: If there's any issue with `mmcv` package in usage, suggested to reinstall `mmcv` using `mim` instead of `
+**Troubleshootings**: If there's any issue with `mmcv` package in usage, suggested to reinstall `mmcv` using `mim` instead of `pip`:
 
 ```bash
 pip uninstall mmcv
