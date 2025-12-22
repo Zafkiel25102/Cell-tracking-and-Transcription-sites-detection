@@ -8,9 +8,12 @@ os.environ['CUDA_VISIBLE_DEVICES'] = sys.argv[1]
 
 import cv2
 import numpy as np
-import skimage.io as skio
 import os
 from skimage.measure import regionprops
+import skimage.io as skio
+from tifffile import imread, imwrite
+import matplotlib.pyplot as plt
+
 
 
 def check_mask_intensity(image_t,mask_t,intensity_t):
@@ -152,12 +155,6 @@ def main():
     print(np.max(img_post_16))
     print(np.mean(img_post_16))
     print(np.min(img_post_16))
-
-
-    import skimage.io as skio
-    from tifffile import imread, imwrite
-    import matplotlib.pyplot as plt
-
 
     image_folder =root_path + r'/01_GT/SEG_16/'
     if not os.path.exists(image_folder):

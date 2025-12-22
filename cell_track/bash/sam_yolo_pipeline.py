@@ -265,6 +265,8 @@ def main():
 
     path_output = os.path.join(sys.argv[2],sys.argv[3],'01_GT/SAMSEG/')
 
+    model_path = sys.argv[4]
+
 
     if not os.path.exists(path_output):
         os.makedirs(path_output)
@@ -273,13 +275,13 @@ def main():
     device = "cuda"
     ###加载检测模型
     config_file = './config.py'#update
-    checkpoint_file = '/Please/enter/the/model/path/./best_coco_bbox_mAP_epoch_180.pth'#update
+    checkpoint_file = os.path.join(model_path, 'bash/best_coco_bbox_mAP_epoch_180.pth')
     model = init_detector(config_file, checkpoint_file, device=device)  # or device='cuda:0'
 
 
     ###加载分割器
 
-    sam_checkpoint = "/Please/enter/the/model/path/./sam_vit_h_4b8939.pth"
+    sam_checkpoint = os.path.join(model_path, 'bash/sam_vit_h_4b8939.pth')
     model_type = "vit_h"
 
 

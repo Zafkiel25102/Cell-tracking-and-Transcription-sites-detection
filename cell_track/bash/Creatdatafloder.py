@@ -28,7 +28,7 @@ def main():
         # Move the original .tif file to the 01 subdirectory
         src_file = os.path.join(current_dir, file)
         dst_file = os.path.join(sub_dir_01, file)
-        shutil.move(src_file, dst_file)
+        shutil.copy2(src_file, dst_file)
 
 if __name__ == "__main__":
     main()

@@ -80,11 +80,11 @@ def main():
 
     import argparse
     root_path = os.path.join(sys.argv[2],sys.argv[3])
-
+    model_path = sys.argv[4]
 
     parser = argparse.ArgumentParser()
     current_path = os.getcwd()
-    model_path = current_path + r"Please/enter/the/model/path/./logs/runs/2023-11-20/21-09-37/checkpoints/epoch=274.ckpt"
+    model_path = os.path.join(model_path, "bash/cell-tracker-gnn-main/logs/runs/2023-11-20/21-09-37/checkpoints/epoch=274.ckpt")
     num_seq = r"01"
     output_csv = root_path 
     assert num_seq == '01' or num_seq == '02'

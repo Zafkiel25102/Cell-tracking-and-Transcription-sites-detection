@@ -98,7 +98,9 @@ def main():
 
     import shutil
     shutil.move(root_path + '/01/' + file_name, root_path)
-    shutil.rmtree( root_path + '/01_GT/SEG_16/')
+    # shutil.rmtree( root_path + '/01_GT/SEG_16/')
     #shutil.rmtree( root_path + '/01_GT/SAMSEG/')
     #shutil.rmtree( root_path + '/PRE/')
 
+if __name__ == "__main__":
+    main()

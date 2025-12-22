@@ -28,8 +28,6 @@ import numpy as np
 import imageio
 import matplotlib.pyplot as plt
 
-import tensorflow as tf
-from tensorflow.keras import backend as K
 
 import matplotlib.pyplot as plt
 import os
@@ -410,7 +408,7 @@ def zoom_handel(img_uint16):
 root_path = os.path.join(sys.argv[2],sys.argv[3])
 file_name = sys.argv[3]+r'.tif'
 
-# img_raw = skio.imread(root_path +'/01/'+ file_name, plugin="tifffile")
+img_raw = skio.imread(root_path +'/01/'+ file_name, plugin="tifffile")
 # img_raw = skio.imread(root_path + file_name, plugin="tifffile")
 # print(img_raw.shape)
 
@@ -418,26 +416,27 @@ file_name = sys.argv[3]+r'.tif'
 #读取一系列图像
 
 # root_path = r'/data/sunrui/celldata/20230824_HBEC_test_DL/10%Laser_300ms_1x1bin/'
-raw_path = root_path + r'/01/'#原始图像路径
-imgfiles = [os.path.join(raw_path, f) for f in os.listdir(raw_path) if f.endswith('.tif') or f.endswith('.tiff')]
-imgfiles.sort()
+# raw_path = root_path + r'/01/'#原始图像路径
+# imgfiles = [os.path.join(raw_path, f) for f in os.listdir(raw_path) if f.endswith('.tif') or f.endswith('.tiff')]
+# imgfiles.sort()
 
-img_raw = []
-print(len(imgfiles))
+# img_raw = []
+# print(len(imgfiles))
 
 
-x = skio.imread(imgfiles[0]).astype(np.uint16)
-x = np.array(x)
+# x = skio.imread(imgfiles[0]).astype(np.uint16)
+x = img_raw.copy()
 print(x.shape)
 # x = np.expand_dims(x,axis=2)
-# x = np.expand_dims(x,axis=3)
+x = np.expand_dims(x,axis=3)
 # print('x:')
 # print(x.shape)
 # print(x.dtype)
 # print('.............................')
 from tifffile import imread, imwrite
 
-total_frames = len(imgfiles)
+total_frames = x.shape[0]
+img_pre_save = np.zeros(x.shape,dtype='float32')
 
 batch_num = 200
 # x =zoom_handel(x)
@@ -448,10 +447,10 @@ if not os.path.exists(saveDir_mul):
     os.makedirs(saveDir_mul)
 
 for i in range(total_frames):
-    img_raw0 = skio.imread(imgfiles[i]).astype(np.uint16)
-    img_raw0 = np.array(img_raw0)
+    # img_raw0 = skio.imread(imgfiles[i]).astype(np.uint16)
+    img_raw0 = np.array(x[i])
     # img_raw0 = np.expand_dims(img_raw0,axis=3)
-    img_raw0 = np.squeeze(img_raw0)
+    # img_raw0 = np.squeeze(img_raw0)
     # print(img_raw0.shape)
     # img_raw0 = blur_proc(img_raw0)
     # img_raw0 = zoom_handel(img_raw0)
@@ -461,10 +460,20 @@ for i in range(total_frames):
     #img_pre = hist_match(img_pre, target_image)  
     #img_pre = uint8_to_uint16(img_pre)
     # img_pre = zoom_handel(img_pre)
+    img_pre_save[i] = img_pre
     
     image_path = os.path.join(saveDir_mul, f'test_{i:04d}.tif')
     print(image_path)
     imwrite(image_path, img_pre)
+
+print('img_pre_save:')
+print(img_pre_save.dtype)
+print(img_pre_save.shape)
+
+saveDir = root_path + r'/PRE/'
+if not os.path.exists(saveDir):
+    os.makedirs(saveDir)
+imwrite(saveDir+"test.tif",img_pre_save)
 
 
 
