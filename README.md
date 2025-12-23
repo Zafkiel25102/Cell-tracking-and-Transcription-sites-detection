@@ -1,5 +1,9 @@
 # Cell tracking and Transcription sites detection
 
+This codebase is the implementation for the paper "Real-time atlas of nascent RNA kinetics elucidates integrated principles of transcription dynamics".
+
+![pipeline](assets/pipeline.png)
+
 ## System Requirements
 
 The code has been tested on:
@@ -40,4 +44,4 @@ Please refer to to [README](/cell_track/README.md) for more details.
 
 ## Transcription sites Analysis
 
-Please refer to to [READMESPOT](/site_flow/README.md) for more details.
+Please refer to to [README](/site_flow/README.md) for more details.
