@@ -21,7 +21,7 @@ for dir in $directories; do
     echo "Found directory: $dir"
     file_name="$dir"
     echo "SAMPRE_HIGH_INTENSITY"
-    python SAMPRE_HIGH_INTENSITY_large.py $gpu_ $root_path $file_name
+    python SAMPRE_HIGH_INTENSITY.py $gpu_ $root_path $file_name
     echo "SAMPRE_HIGH_INTENSITY_done"
     # change environment
     echo "sam_yolo_pipeline"
