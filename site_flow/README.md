@@ -15,7 +15,7 @@ pip install trackpy SimpleITK
 
 ### Build from Scratch
 
-This code based on `python`，and requires `pytorch` and `torchvision`. Please follow the instructions [here](https://pytorch.org/get-started/locally/) to install both PyTorch and TorchVision dependencies. Installing both PyTorch and TorchVision with CUDA support is strongly recommended.
+This code based on `python==3.9.18`，and requires `pytorch==2.0.0` and `torchvision==0.15.0`. Please follow the instructions [here](https://pytorch.org/get-started/locally/) to install both PyTorch and TorchVision dependencies. Installing both PyTorch and TorchVision with CUDA support is strongly recommended.
 
 Other package dependencies:
 
