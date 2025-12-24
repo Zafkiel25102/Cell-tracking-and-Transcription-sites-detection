@@ -29,6 +29,7 @@ The directory structure:
 
 ```
 ├── site_flow
+│   ├── README.md                  <- This README file
 |   ├── predictor.py               <- Main predictor class for site analysis
 |   ├── utils.py                   <- Utility functions
 |   ├── run.py                     <- Example script to run the site analysis pipeline

@@ -4,7 +4,7 @@ This part contains the code for the cell segmentation and tracking pipeline.
 
 ## Model Weights Download
 
-The model weight are available at [OneDrive](https://westlakeu-my.sharepoint.com/personal/wanyihan_westlake_edu_cn/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fwanyihan%5Fwestlake%5Fedu%5Fcn%2FDocuments%2FGINKgo%5Fmodels&viewid=bbeec2b3%2Df0cb%2D4eb2%2D9f16%2D03ddb209526d&ga=1).
+The model weight are available at [OneDrive](https://westlakeu-my.sharepoint.com/:f:/g/personal/wanyihan_westlake_edu_cn/EknHe0MW7aFEmLB0M_HiX84BFQw4-VbQ3NKTywkf9xWhSg?e=wo3OVb) under `model/`.
 
 After downloading, please make sure to modify `model_ckp_path` in `cell_track_yolo.sh` to the path where you save the model weights. 
 
@@ -14,12 +14,12 @@ The directory structure:
 
 ```
 ├── cell_track 
-│   ├── condarequirements_gnn.txt      <- File for installing python dependencies
-│   ├── piprequirements_gnn.txt        <- File for conda environment creation
-│   ├── condarequirements_sam.txt      <- File for installing python dependencies
-│   ├── piprequirements_sam.txt        <- File for conda environment creation
+│   ├── README.md                      <- This README file
+│   ├── cell-seg.yml                   <- File for conda environment creation
+│   ├── cell-track.yml                 <- File for conda environment creation
 |   ├── example                        <- Example data folder
-|   |    ├── 01                        <- Example sequence 1 (10 frames)
+|   |    ├── test_seq.tif              <- Example cell sequence tiff file
+|   |    ├── test_seq                  <- Analysis result folder
 │   ├── bash        <- main folder
 │   │    ├── cell-tracker-gnn-main      
 │   │    │  ├── configs           <- Hydra configuration files
@@ -38,17 +38,18 @@ The directory structure:
 │   │    ├── cell_track_yolo.sh      <- Main Bash Script   
 ```
 
-## Getting Started
+## Usage
 
 Please ensure to check the `root_path` and `model_ckp_path` in `cell_track_yolo.sh` before running the code. 
 
 We provide an example data folder in `cell_track/example` for quick testing. Before running following commands, please make sure to 
 
-- check the `root_path` and `model_ckp_path` in `cell_track_yolo.sh`
+- check the `root_path` and `model_ckp_path` in `cell_track_yolo.sh`, e.g., we set `root_path='../example'` and `model_ckp_path='../model'` in the bash script, where example data and model weights are stored in `cell_track/example` and `cell_track/model` respectively.
 - check the conda installation path and modify it if necessary, e.g., we set `source ~/anaconda3/etc/profile.d/conda.sh` in the bash script.
+- the example data and corresponding results are available at [OneDrive](https://westlakeu-my.sharepoint.com/:f:/g/personal/wanyihan_westlake_edu_cn/EknHe0MW7aFEmLB0M_HiX84BFQw4-VbQ3NKTywkf9xWhSg?e=wo3OVb) under `example`.
 
 ```
-cd path/to/Cell-tracking-and-Transcription-sites-detection/cell_track/bash
+cd cell_track/bash
 bash cell_track_yolo.sh
 ```
 

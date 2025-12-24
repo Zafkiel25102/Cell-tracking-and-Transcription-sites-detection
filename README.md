@@ -8,8 +8,8 @@ This codebase is the implementation for the paper "Real-time atlas of nascent RN
 
 The code has been tested on:
 
-- Red Hat 8.3.1-5 with CUDA 11.7
-- Ubuntu 18.04 with CUDA 12.2
+- Red Hat 8.3.1-5 with CUDA 11.7 (Nvidia L40)
+- Ubuntu 18.04 with CUDA 12.2 (Nvidia GeForce RTX 4090)
 
 ## Environment Setup
 
