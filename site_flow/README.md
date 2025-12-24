@@ -4,7 +4,7 @@ This part contains the code for the RNA transcription site analysis pipeline, in
 
 ## Environment Setup
 
-### Based on Cell Segmenter Environment (suggested)
+### Based on Cell Segmentation Environment (suggested)
 
 The most suggested way to set up the environment is to use the same environment as Cell Segmentation, while with following addtional packages installed:
 
@@ -34,9 +34,11 @@ The directory structure:
 |   ├── run.py                     <- Example script to run the site analysis pipeline
 |   ├── pt                         <- Pretrained model weights folder
 |   ├── example                    <- Example data folder
+│   │    ├── cellraw_20486.tif     <- Example cell sequence tiff file
+│   │    ├── cellraw_20486         <- Analysis result folder
 ```
 
-### Data preparation
+## Data preparation
 
 This pipeline expects the input data to be in the following format:
 
@@ -44,7 +46,7 @@ This pipeline expects the input data to be in the following format:
 
 TIFF files should be named in a way that indicates the cell id, such as `cellraw_0001.tif`, `cellraw_0002.tif`, etc. The images should be grayscale and have a consistent resolution. In this pipeline, we using the fixed resolution of `128*128` pixels for each cell image. 
 
-### Usage
+## Usage
 
 **Note**: We design different tracking methods for cell sequences with different transcription sites.
 
@@ -109,7 +111,7 @@ conda activate sam-yolo
 python run.py
 ```
 
-### Citation
+## Citation
 
 ```
 Gudla et. al., "SpotLearn: Convolutional Neural Network for Detection of Fluorescence In Situ Hybridization (FISH) Signals in
