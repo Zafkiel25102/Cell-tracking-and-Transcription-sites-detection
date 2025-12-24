@@ -13,7 +13,7 @@ The code has been tested on:
 
 ## Environment Setup
 
-Cell segmentation and tracking requires seperate conda environment, with `cell-seg.yml` and `cell-track.yml` files provided for easy setup.
+Cell segmentation and tracking requires seperate conda environment, with `cell-seg.yml` and `cell-track.yml` files provided for each setup.
 
 For cell segmentation, run the following commands to create and install the environment:
 
