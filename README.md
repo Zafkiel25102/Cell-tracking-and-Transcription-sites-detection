@@ -21,6 +21,8 @@ For cell segmentation, run the following commands to create and install the envi
 cd cell_track
 conda env create -f cell-seg.yml
 conda activate sam-yolo
+cd bash/segment-anything
+pip install -e .
 ```
 
 **Troubleshootings**: If there's any issue with `mmcv` package in usage, suggested to reinstall `mmcv` using `mim` instead of `pip`:
