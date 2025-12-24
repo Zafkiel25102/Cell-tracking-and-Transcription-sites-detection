@@ -348,17 +348,30 @@ def main():
 
 
 
-    for i in range(0, total_frames, batch):
+    for i in range(0, total_frames):
 
-        img_raw0 = x[i:i+batch,:,:,:]
+        img_raw0 = x[i,:,:]
 
         img_pre = img_raw0
         threshold1 = 100
         threshold2 = 200
 
+        img_pre = np.squeeze(img_pre).astype(np.float32)
+
+        min_val = img_pre.min()
+        max_val = img_pre.max()
+
+        if max_val == min_val:
+            scaled = np.zeros_like(img_pre, dtype=np.uint16)
+        else:
+            scaled = (img_pre - min_val) / (max_val - min_val)
+            scaled = (scaled * 65535).round().astype(np.uint16)
+            
+        img_pre = scaled[..., None]
+
         # img_pre = uint8_to_uint16(img_pre)
 
-        img_pre_save[i:i+batch,:,:,:] = img_pre
+        img_pre_save[i,:,:,:] = img_pre
 
 
     print('img_pre_save:')
@@ -371,7 +384,7 @@ def main():
     saveDir = root_path + r'/PRE/'
     if not os.path.exists(saveDir):
         os.makedirs(saveDir)
-    # imwrite(saveDir+"test.tif",img_pre_save)
+    imwrite(saveDir+"test.tif",img_pre_save)
 
     saveDir_mul = root_path + r'/PRE/PRE_MUL/'
     if not os.path.exists(saveDir_mul):

@@ -457,8 +457,8 @@ for i in range(total_frames):
 
     img_pre = img_raw0
     #img_pre = background_noise(img_pre)
-    #img_pre = hist_match(img_pre, target_image)  
-    #img_pre = uint8_to_uint16(img_pre)
+    img_pre = hist_match(img_pre, target_image)  
+    img_pre = uint8_to_uint16(img_pre)
     # img_pre = zoom_handel(img_pre)
     img_pre_save[i] = img_pre
     
