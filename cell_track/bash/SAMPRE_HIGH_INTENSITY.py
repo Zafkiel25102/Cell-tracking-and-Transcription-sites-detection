@@ -341,7 +341,7 @@ def main():
     batch = 50
     total_frames = x.shape[0]
     # total_frames = 50
-    img_pre_save = np.zeros(x.shape,dtype='float32')
+    img_pre_save = np.zeros(x.shape,dtype='uint16')
 
 
     target_image = x[0]
@@ -356,7 +356,7 @@ def main():
         threshold1 = 100
         threshold2 = 200
 
-        img_pre = uint8_to_uint16(img_pre)
+        # img_pre = uint8_to_uint16(img_pre)
 
         img_pre_save[i:i+batch,:,:,:] = img_pre
 
@@ -364,16 +364,14 @@ def main():
     print('img_pre_save:')
     print(img_pre_save.dtype)
     print(img_pre_save.shape)
-    img_pre_save = float32_to_uint8(img_pre_save)
+    # img_pre_save = float32_to_uint8(img_pre_save)
     print(img_pre_save.dtype)
     print(img_pre_save.shape)
-
-
 
     saveDir = root_path + r'/PRE/'
     if not os.path.exists(saveDir):
         os.makedirs(saveDir)
-    imwrite(saveDir+"test.tif",img_pre_save)
+    # imwrite(saveDir+"test.tif",img_pre_save)
 
     saveDir_mul = root_path + r'/PRE/PRE_MUL/'
     if not os.path.exists(saveDir_mul):
