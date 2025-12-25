@@ -40,6 +40,8 @@ conda env create -f cell-track.yml
 conda activate celltrack
 ```
 
+**Tips**: Environment installation may take a few minutes, depending on your network speed and installation source.
+
 ## Cell Segmentation and Tracking
 
 Please refer to to [README](/cell_track/README.md) for more details.
