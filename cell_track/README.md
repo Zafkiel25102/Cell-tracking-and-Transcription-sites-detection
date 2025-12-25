@@ -17,9 +17,10 @@ The directory structure:
 │   ├── README.md                      <- This README file
 │   ├── cell-seg.yml                   <- File for conda environment creation
 │   ├── cell-track.yml                 <- File for conda environment creation
-|   ├── example                        <- Example data folder
+|   ├── example                        <- Example data folder (can download from OneDrive link)
 |   |    ├── test_seq.tif              <- Example cell sequence tiff file
 |   |    ├── test_seq                  <- Analysis result folder
+|   ├── model                          <- Model weight folder (can download from OneDrive link)
 │   ├── bash        <- main folder
 │   │    ├── cell-tracker-gnn-main      
 │   │    │  ├── configs           <- Hydra configuration files
