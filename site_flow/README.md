@@ -1,8 +1,21 @@
 # Transcription sites Analysis
 
-This part contains the code for the RNA transcription site analysis pipeline.
+This part contains the code for the RNA transcription site analysis pipeline, including site detection, registration, tracking, and intensity computation.
 
-This code based on `python`，and requires `pytorch` and `torchvision`. Please follow the instructions [here](https://pytorch.org/get-started/locally/) to install both PyTorch and TorchVision dependencies. Installing both PyTorch and TorchVision with CUDA support is strongly recommended.
+## Environment Setup
+
+### Based on Cell Segmentation Environment (suggested)
+
+The most suggested way to set up the environment is to use the same environment as Cell Segmentation, while with following addtional packages installed:
+
+```shell
+conda activate sam-yolo
+pip install trackpy SimpleITK
+```
+
+### Build from Scratch
+
+This code based on `python==3.9.18`，and requires `pytorch==2.0.0` and `torchvision==0.15.0`. Please follow the instructions [here](https://pytorch.org/get-started/locally/) to install both PyTorch and TorchVision dependencies. Installing both PyTorch and TorchVision with CUDA support is strongly recommended.
 
 Other package dependencies:
 
@@ -10,7 +23,23 @@ Other package dependencies:
 pip install tifffile trackpy SimpleITK scikit-image scikit-image
 ```
 
-### Data preparation
+## Structure
+
+The directory structure:
+
+```
+├── site_flow
+│   ├── README.md                  <- This README file
+|   ├── predictor.py               <- Main predictor class for site analysis
+|   ├── utils.py                   <- Utility functions
+|   ├── run.py                     <- Example script to run the site analysis pipeline
+|   ├── pt                         <- Pretrained model weights folder
+|   ├── example                    <- Example data folder
+│   │    ├── cellraw_20486.tif     <- Example cell sequence tiff file
+│   │    ├── cellraw_20486         <- Analysis result folder
+```
+
+## Data preparation
 
 This pipeline expects the input data to be in the following format:
 
@@ -18,7 +47,7 @@ This pipeline expects the input data to be in the following format:
 
 TIFF files should be named in a way that indicates the cell id, such as `cellraw_0001.tif`, `cellraw_0002.tif`, etc. The images should be grayscale and have a consistent resolution. In this pipeline, we using the fixed resolution of `128*128` pixels for each cell image. 
 
-### Usage
+## Usage
 
 **Note**: We design different tracking methods for cell sequences with different transcription sites.
 
@@ -75,13 +104,15 @@ site_predictor.get_raw_stack_with_label()
 
 ### Example
 
+We provide an example script `run.py` in the `site_flow` folder and an example dataset in the `example` folder to demonstrate the usage of the transcription site analysis pipeline.
+
 ```bash
 cd site_flow
-conda activate your_env_name
+conda activate sam-yolo
 python run.py
 ```
 
-### Citation
+## Citation
 
 ```
 Gudla et. al., "SpotLearn: Convolutional Neural Network for Detection of Fluorescence In Situ Hybridization (FISH) Signals in
