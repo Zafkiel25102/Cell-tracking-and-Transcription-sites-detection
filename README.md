@@ -49,3 +49,7 @@ Please refer to to [README](/cell_track/README.md) for more details.
 ## Transcription sites Analysis
 
 Please refer to to [README](/site_flow/README.md) for more details.
+
+## License
+
+This project is covered under the **Apache 2.0 License**.
